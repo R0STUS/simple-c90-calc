@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-
-#define max 64
+#include <string.h>
 
 int gaypow(int ptr, int to) {
     int sum = 1;
@@ -13,14 +12,28 @@ int gaypow(int ptr, int to) {
     return sum;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    int max = 64;
     char* fl = malloc(max);
     int i;
     int sum = 0;
     int tmp = 0;
     int d = 0;
-    printf("Enter formula (max %d): ", max);
-    fgets(fl, max, stdin);
+    if (argc <= 1) {
+        printf("Enter formula (max %d): ", max);
+        fgets(fl, max, stdin);
+    }
+    else {
+        max = 0;
+        fl = malloc(max);
+        for (i = 1; i < argc; i++) {
+            max += strlen(argv[i]) + 2;
+            fl = realloc(fl, max);
+            fl = strcat(fl, argv[i]);
+            fl = strcat(fl, " ");
+        }
+        fl = realloc(fl, max - 1);
+    }
     for (i = 0; i < max; i++) {
         if (fl[i] == '+' || fl[i] == '-' || fl[i] == '*' || fl[i] == '/' || fl[i] == '^') {
             if (d > 0) {
