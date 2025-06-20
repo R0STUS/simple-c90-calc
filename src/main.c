@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         fl = realloc(fl, max - 1);
     }
     for (i = 0; i < max; i++) {
-        if (fl[i] == '+' || fl[i] == '-' || fl[i] == '*' || fl[i] == '/' || fl[i] == '^') {
+        if (fl[i] == '+' || fl[i] == '-' || fl[i] == '*' || fl[i] == '/' || fl[i] == '^' || fl[i] == '%') {
             if (d > 0) {
                 if (d == 1)
                     tmp += sum;
@@ -45,8 +45,10 @@ int main(int argc, char* argv[]) {
                     tmp *= sum;
                 else if (d == 4)
                     tmp /= sum;
-                else
+                else if (d == 5)
                     tmp = gaypow(tmp, sum);
+		        else
+                    tmp %= sum;
                 sum = 0;
                 d = 0;
             }
@@ -54,7 +56,7 @@ int main(int argc, char* argv[]) {
                 tmp = sum;
                 sum = 0;
             }
-            d = (fl[i] == '+') ? 1 : (fl[i] == '-') ? 2 : (fl[i] == '*') ? 3 : (fl[i] == '/') ? 4 : 5;
+            d = (fl[i] == '+') ? 1 : (fl[i] == '-') ? 2 : (fl[i] == '*') ? 3 : (fl[i] == '/') ? 4 : (fl[i] == '^') ? 5 : 6;
         }
         else if (isdigit(fl[i])) {
             sum *= 10;
@@ -70,8 +72,10 @@ int main(int argc, char* argv[]) {
             tmp *= sum;
         else if (d == 4)
             tmp /= sum;
-        else
+        else if (d == 5)
             tmp = gaypow(tmp, sum);
+        else
+            tmp %= sum;
         sum = 0;
     }
     else {
