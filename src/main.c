@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <string.h>
 
+typedef int (*funcPtr) (int, int);
+
 int gaypow(int ptr, int to) {
     int sum = 1;
     int i;
@@ -11,6 +13,30 @@ int gaypow(int ptr, int to) {
     }
     return sum;
 }
+
+int plus(int ptr, int to) {
+    return ptr + to;
+}
+
+int minus(int ptr, int to) {
+    return ptr - to;
+}
+
+int multi(int ptr, int to) {
+    return ptr * to;
+}
+
+int divide(int ptr, int to) {
+    return ptr / to;
+}
+
+int module(int ptr, int to) {
+    return ptr % to;
+}
+
+funcPtr funcs[] = {
+    plus, minus, multi, divide, gaypow, module
+};
 
 int main(int argc, char* argv[]) {
     int max = 64;
@@ -37,18 +63,7 @@ int main(int argc, char* argv[]) {
     for (i = 0; i < max; i++) {
         if (fl[i] == '+' || fl[i] == '-' || fl[i] == '*' || fl[i] == '/' || fl[i] == '^' || fl[i] == '%') {
             if (d > 0) {
-                if (d == 1)
-                    tmp += sum;
-                else if (d == 2)
-                    tmp -= sum;
-                else if (d == 3)
-                    tmp *= sum;
-                else if (d == 4)
-                    tmp /= sum;
-                else if (d == 5)
-                    tmp = gaypow(tmp, sum);
-		        else
-                    tmp %= sum;
+                tmp = funcs[d - 1](tmp, sum);
                 sum = 0;
                 d = 0;
             }
@@ -64,18 +79,7 @@ int main(int argc, char* argv[]) {
         }
     }
     if (d > 0) {
-        if (d == 1)
-            tmp += sum;
-        else if (d == 2)
-            tmp -= sum;
-        else if (d == 3)
-            tmp *= sum;
-        else if (d == 4)
-            tmp /= sum;
-        else if (d == 5)
-            tmp = gaypow(tmp, sum);
-        else
-            tmp %= sum;
+        tmp = funcs[d - 1](tmp, sum);
         sum = 0;
     }
     else {
