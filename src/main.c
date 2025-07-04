@@ -3,34 +3,34 @@
 #include <ctype.h>
 #include <string.h>
 
-typedef int (*funcPtr) (int, int);
+typedef long (*funcPtr) (long, long);
 
-int gaypow(int ptr, int to) {
-    int sum = 1;
-    int i;
+long gaypow(long ptr, long to) {
+    long sum = 1;
+    long i;
     for (i = 0; i < to; i++) {
         sum *= ptr;
     }
     return sum;
 }
 
-int plus(int ptr, int to) {
+long plus(long ptr, long to) {
     return ptr + to;
 }
 
-int minus(int ptr, int to) {
+long minus(long ptr, long to) {
     return ptr - to;
 }
 
-int multi(int ptr, int to) {
+long multi(long ptr, long to) {
     return ptr * to;
 }
 
-int divide(int ptr, int to) {
+long divide(long ptr, long to) {
     return ptr / to;
 }
 
-int module(int ptr, int to) {
+long module(long ptr, long to) {
     return ptr % to;
 }
 
@@ -39,14 +39,14 @@ funcPtr funcs[] = {
 };
 
 int main(int argc, char* argv[]) {
-    int max = 64;
+    long max = 64;
     char* fl = malloc(max);
-    int i;
-    int sum = 0;
-    int tmp = 0;
-    int d = 0;
+    long i;
+    long sum = 0;
+    long tmp = 0;
+    long d = 0;
     if (argc <= 1) {
-        printf("Enter formula (max %d): ", max);
+        printf("Enter formula (max %ld): ", max);
         fgets(fl, max, stdin);
     }
     else {
@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
     }
     if (tmp != 0 && sum == 0)
         sum = tmp;
-    printf("Result: %d\n", sum);
+    printf("Result: %ld\n", sum);
     free(fl);
     return 0;
 }
