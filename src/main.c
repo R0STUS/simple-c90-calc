@@ -38,9 +38,20 @@ funcPtr funcs[] = {
     plus, minus, multi, divide, gaypow, module
 };
 
+int which(char what, char* from) {
+    int i;
+    for (i = 0; i < (int)strlen(from); i++) {
+        if (from[i] == what)
+            return i;
+    }
+    return -1;
+}
+
 int main(int argc, char* argv[]) {
     long max = 64;
     char* fl = malloc(max);
+    char* ops = "+-*/^%";
+    int whch;
     long i;
     long sum = 0;
     long tmp = 0;
@@ -61,7 +72,9 @@ int main(int argc, char* argv[]) {
         fl = realloc(fl, max - 1);
     }
     for (i = 0; i < max; i++) {
-        if (fl[i] == '+' || fl[i] == '-' || fl[i] == '*' || fl[i] == '/' || fl[i] == '^' || fl[i] == '%') {
+        if (fl[i] != 0)
+            whch = which(fl[i], ops) + 1;
+        if (whch > 0) {
             if (d > 0) {
                 tmp = funcs[d - 1](tmp, sum);
                 sum = 0;
@@ -71,7 +84,7 @@ int main(int argc, char* argv[]) {
                 tmp = sum;
                 sum = 0;
             }
-            d = (fl[i] == '+') ? 1 : (fl[i] == '-') ? 2 : (fl[i] == '*') ? 3 : (fl[i] == '/') ? 4 : (fl[i] == '^') ? 5 : 6;
+            d = whch;
         }
         else if (isdigit(fl[i])) {
             sum *= 10;
